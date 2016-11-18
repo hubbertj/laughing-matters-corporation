@@ -1,3 +1,10 @@
+/*  Title: Configurations
+    Author:  Hubbert
+    Date: Nov 17 2016
+    Comment: 
+        Master config file, can be overridden by the local config.
+*/
+
 module.exports = {
     environment: process.env.mode || 'development',
     npm_package_name: process.env.npm_package_name || 'UNKNOWN',
