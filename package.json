@@ -1,0 +1,20 @@
+{
+  "name": "laughing-matters-corporation",
+  "version": "1.0.0",
+  "description": "Corporate and advertisment site for laughing matters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hubbertj/laughing-matters-corporation.git"
+  },
+  "author": "Jerum Hubbert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hubbertj/laughing-matters-corporation/issues"
+  },
+  "homepage": "https://github.com/hubbertj/laughing-matters-corporation#readme"
+}
