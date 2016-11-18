@@ -4,7 +4,9 @@
   "description": "Corporate and advertisment site for laughing matters.",
   "main": "index.js",
   "scripts": {
+    "postinstall": "node scripts/post-install.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "node scripts/pre-start.js",
     "start": "node index.js"
   },
   "repository": {
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/hubbertj/laughing-matters-corporation#readme",
   "dependencies": {
+    "mix-into": "^0.4.0",
     "sequelize": "^3.26.0"
   }
 }
