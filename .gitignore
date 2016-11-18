@@ -11,7 +11,7 @@ build/
 css/*.css
 
 #configurations
-config/local_config.js
+configs/local_configs.js
 
 #logs
 npm-debug.log
