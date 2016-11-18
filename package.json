@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hubbertj/laughing-matters-corporation/issues"
   },
-  "homepage": "https://github.com/hubbertj/laughing-matters-corporation#readme"
+  "homepage": "https://github.com/hubbertj/laughing-matters-corporation#readme",
+  "dependencies": {
+    "sequelize": "^3.26.0"
+  }
 }
