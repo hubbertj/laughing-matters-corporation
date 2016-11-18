@@ -10,15 +10,24 @@
 //run the bootstrap files
 
 require("./scripts/pre-start.js");
+var bootstrap = require("./bootstrap.js");
 
-console.log(config);
+var setupWebserver = function(isBootstrap) {
+    return new Promise(function(resolve, reject) {
+        var express = require('express');
+        var cors = require('cors')
+        var app = express();
+        var routesWeb = require('./app/routes-web');
 
 
-// var bootstrap = require("./bootstrap.js");
-// bootstrap.init()
-//     .then(function(result) {
+        return resolve(app);
+    });
+}
 
-//     });
-//creates web server
-//adds what we need to the web server;
-//start webserver.
+bootstrap.init()
+    .then(function(result) {
+        console.log(config);
+        return setupWebserver(result);
+    }).then(function(app) {
+        console.log(app);
+    });

@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/hubbertj/laughing-matters-corporation#readme",
   "dependencies": {
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "express-ejs-layouts": "^2.2.0",
     "mix-into": "^0.4.0",
     "sequelize": "^3.26.0"
   }
