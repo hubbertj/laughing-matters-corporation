@@ -12,5 +12,7 @@ module.exports = {
         ip: process.env.app_url || '127.0.0.1',
         port: process.env.PORT || 3000
     },
-    database_url: process.env.DATABASE_URL || false
+    database_url: process.env.DATABASE_URL || false,
+    secret: process.env.secret || 'dog and cat',
+    secure_cookies: process.env.secure_cookies || false 
 }
