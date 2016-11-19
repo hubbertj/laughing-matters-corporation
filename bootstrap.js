@@ -11,6 +11,7 @@ global.getPromise = function() {
 module.exports = {
     init: function() {
         return new Promise(function(resolve, reject) {
+            global.getUtil = require('util');
             global.getMoment = function() {
                 return require('moment');
             }
@@ -35,6 +36,10 @@ module.exports = {
             }
             global.getAuthorization = function() {
                 return require('express-authorization');
+            }
+            global.generateUUID = function() {
+                var uuid = require('uuid');
+                return uuid.v4();
             }
 
 
