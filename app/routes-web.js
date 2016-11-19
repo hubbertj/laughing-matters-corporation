@@ -18,7 +18,9 @@ module.exports = {
         var isAuthorizedAdmin = authorization.ensureRequest.isPermitted('restricted:admin');
 
         routerWeb.get("/", function(req, res) {
-            res.redirect("/home");
+            res.render("pages/home.ejs", {
+                data: {}
+            });
         });
 
         //admin routes
@@ -51,11 +53,6 @@ module.exports = {
         });
         // -- end
 
-        routerWeb.get("/home", function(req, res) {
-            res.render("pages/home.ejs", {
-                data: {}
-            });
-        });
 
         routerWeb.get('/logout', function(req, res) {
             req.session.destroy(function() {
@@ -75,7 +72,7 @@ module.exports = {
                     }
                 });
             } else {
-                res.redirect('/home');
+                res.redirect('/');
             }
         });
 
@@ -92,6 +89,7 @@ module.exports = {
             if (typeof req.session.user != 'undefined') {
                 res.locals.login = true;
             }
+            next();
         });
 
         app.use('', routerWeb);

@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "Jay",
+    "username": "jayhubbert",
     "password": null,
-    "database": "laughFactory",
+    "database": "laughfactory",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

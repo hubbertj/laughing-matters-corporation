@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <title>CounterDraft | <%= title %></title>
+	    <meta charset="utf-8"> 
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+		<meta name="theme-color" content="#ffffff">
+	    <% include ../partials/css.ejs %>
+	</head>
+	<body ng-app="matters-app" <% if (environment  !== 'production') { %> ngStrictDi <% } %>>
+		<% include ../partials/off-canvas.ejs %>
+		<div id="matters-main" class="container">
+			<div class="row">
+				<div id="cd-alert-box" class="cd-alert ">
+		 			<button type="button" class="close" alert-dismiss>&times;</button>
+		 			<div class="alert-container col-xs-12"></div>
+		 		</div>
+		 	</div>
+		 	<div class="row">
+		 	<% if (login) { %>
+		 		<div class="col-sm-9 col-xs-12">
+			 		<%- body %>
+			 	</div>
+			 	<div class="col-sm-3">
+			 		<%- include ../partials/off-canvas-nav-items.ejs %>
+			 	</div>
+		 	<% } else { %>
+		 		<div class="col-xs-12">
+			 		<%- body %>
+			 	</div>
+		 	<% } %>
+		 	</div>
+	    </div>
+	</body>
+	<% if (login) { %>
+		<% include ../partials/footer.ejs %>
+	<% } %>
+	<% include ../partials/modals.ejs %>
+	<% include ../partials/application.ejs %>
+	<div id="counter-load">
+	    <div class="counter-loader"></div>
+	</div>
+</html>

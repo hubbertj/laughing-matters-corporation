@@ -1,7 +1,7 @@
 module.exports = {
     environment: 'development',
     database: {
-        "user": "Jay",
+        "user": "jayhubbert",
         "password": "",
         "database": "laughfactory",
         "host": "localhost",

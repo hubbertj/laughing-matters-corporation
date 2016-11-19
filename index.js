@@ -19,6 +19,7 @@ var _setupWebserver = function(isBootstrap) {
         var app = express();
         var sessionFactory = require('./lib/session');
         var routesWeb = require('./app/routes-web');
+        var routesApi = require('./app/routes-api');
         var cookieParser = require('cookie-parser');
         var bodyParser = require('body-parser');
 
@@ -41,64 +42,59 @@ var _setupWebserver = function(isBootstrap) {
         app.use(expressLayouts);
 
         routesWeb.setup(app);
+        // routesApi.setup(app);
 
         return resolve(app);
     });
 }
 var _launchApp = function(app) {
-    cos
-    return new Promise(function(resolve, reject) {
-        app.listen(app.get('port'), function() {
-            return resolve(app);
+    //init database and starts server after the init;
+    return global.models.sequelize.sync().then(function() {
+        if (global.config['migration_run']) {
+            var umzug = new Umzug({
+                storage: 'sequelize',
+                storageOptions: {
+                    sequelize: models.sequelize,
+                    model: models.sequelize_meta,
+                    modelName: 'sequelize_meta',
+                    columnType: new models.Sequelize.STRING(100)
+                },
+                migrations: { params: [models.sequelize.getQueryInterface(), models.Sequelize] }
+            });
+
+            umzug.executed().then(function(migrations) {
+                // No need to log this;
+                for (var x in migrations) {
+                    console.log("Existing migration in system = " + migrations[x].file);
+                }
+
+            });
+            if (global.config['migration_order'] && global.config['migration_order'] === 'down') {
+                return umzug.down();
+            } else {
+                return umzug.up();
+            }
+        }
+    }).then(function(migrations) {
+        if (migrations && migrations.length > 0) {
+            if (global.config['migration_order'] && global.config['migration_order'] === 'down') {
+                for (var r in migrations) {
+                    logger.info("migration applied down() = " + migrations[r].file);
+                }
+            } else {
+
+                for (var x in migrations) {
+                    logger.info("migration applied up() = " + migrations[x].file);
+                }
+            }
+
+        }
+        return new Promise(function(resolve, reject) {
+            app.listen(app.get('port'), function() {
+                return resolve(app);
+            });
         });
     });
-    //init database and starts server after the init;
-    // return global.models.sequelize.sync().then(function() {
-    //     if (global.config['migration_run']) {
-    //         var umzug = new Umzug({
-    //             storage: 'sequelize',
-    //             storageOptions: {
-    //                 sequelize: models.sequelize,
-    //                 model: models.sequelize_meta,
-    //                 modelName: 'sequelize_meta',
-    //                 columnType: new models.Sequelize.STRING(100)
-    //             },
-    //             migrations: { params: [models.sequelize.getQueryInterface(), models.Sequelize] }
-    //         });
-
-    //         umzug.executed().then(function(migrations) {
-    //             // No need to log this;
-    //             for (var x in migrations) {
-    //                 console.log("Existing migration in system = " + migrations[x].file);
-    //             }
-
-    //         });
-    //         if (global.config['migration_order'] && global.config['migration_order'] === 'down') {
-    //             return umzug.down();
-    //         } else {
-    //             return umzug.up();
-    //         }
-    //     }
-    // }).then(function(migrations) {
-    //     if (migrations && migrations.length > 0) {
-    //         if (global.config['migration_order'] && global.config['migration_order'] === 'down') {
-    //             for (var r in migrations) {
-    //                 logger.info("migration applied down() = " + migrations[r].file);
-    //             }
-    //         } else {
-
-    //             for (var x in migrations) {
-    //                 logger.info("migration applied up() = " + migrations[x].file);
-    //             }
-    //         }
-
-    //     }
-    //     return new Promise(function(resolve, reject) {
-    //         app.listen(app.get('port'), function() {
-    //             return resolve(app);
-    //         });
-    //     });
-    // });
 }
 
 bootstrap.init()
@@ -111,7 +107,6 @@ bootstrap.init()
             });
         }
     }).then(function(app) {
-        console.log(app);
         return _launchApp(app);
     }).then(function(app) {
         if (app) {
@@ -120,5 +115,9 @@ bootstrap.init()
             logger.info('Listening on port: ' + app.get('port') + '\n');
         }
     }).catch(function(err) {
-        console.error(err);
+        if(logger){
+            logger.error(err);
+        }else{
+          console.error(err);  
+        }
     });

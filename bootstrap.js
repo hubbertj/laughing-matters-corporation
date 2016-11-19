@@ -11,12 +11,6 @@ global.getPromise = function() {
 module.exports = {
     init: function() {
         return new Promise(function(resolve, reject) {
-            global.getUtil = require('util');
-            global.getMoment = function() {
-                return require('moment');
-            }
-            global.logger = require('./lib/logger').init();
-            global.models = require("./models");
             global.getDatabase_url = function() {
                 if (global.config.database_url) {
                     return global.config.database_url;
@@ -31,6 +25,13 @@ module.exports = {
                     return null;
                 }
             }
+            global.getUtil = require('util');
+            global.getMoment = function() {
+                return require('moment');
+            }
+            global.logger = require('./lib/logger').init();
+            global.models = require("./models");
+
             global.getdbConnection = function() {
                 return require('pg');
             }
