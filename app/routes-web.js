@@ -81,6 +81,7 @@ module.exports = {
             var self = this;
             //defaults variables;
             res.locals.login = false;
+            res.locals.showFooter = true;
             res.locals.user = null;
             res.locals.organization = null;
             res.locals.environment = global.config['environment'];
