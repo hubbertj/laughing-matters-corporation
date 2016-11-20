@@ -11,6 +11,7 @@
 
 require("./scripts/pre-start.js");
 var bootstrap = require("./bootstrap.js");
+var grunt = require("grunt");
 
 var _setupWebserver = function(isBootstrap) {
     return new Promise(function(resolve, reject) {
@@ -97,27 +98,67 @@ var _launchApp = function(app) {
     });
 }
 
+var _build = function(app) {
+    return new Promise(function(resolve, reject) {
+        if (global.config.environment === 'production') {
+            logger.warn('Creating the build, please wait...');
+            grunt.cli({
+                gruntfile: __dirname + "/grunt_production.js",
+                extra: {
+                    key: "run"
+                }
+            });
+            return resolve(true);
+        } else {
+            logger.info('Bypassing build we are in ' + global.config.environment + ' please wait...');
+            logger.info('Adding less watch...');
+            grunt.cli({
+                gruntfile: __dirname + "/grunt_development.js",
+                extra: {
+                    key: "run"
+                }
+            });
+            return resolve(true);
+        }
+    });
+}
+
+
+//main 
 bootstrap.init()
     .then(function(result) {
         if (result) {
-            return _setupWebserver(result);
+            return _build();
         } else {
             return new Promise(function(resolve, reject) {
                 reject('Failed to bootstrap.')
             });
         }
-    }).then(function(app) {
+    })
+    .then(function(result) {
+        console.log('ere');
+        if (result) {
+            return _setupWebserver(result);
+        } else {
+            return new Promise(function(resolve, reject) {
+                reject('Failed to create build!')
+            });
+        }
+    })
+    .then(function(app) {
         return _launchApp(app);
-    }).then(function(app) {
+    })
+    .then(function(app) {
         if (app) {
             logger.info('Loaded configuration: \n' + JSON.stringify(getUtil.inspect(config)));
             logger.info('Server started in ' + config.environment + ' mode.');
             logger.info('Listening on port: ' + app.get('port') + '\n');
         }
-    }).catch(function(err) {
-        if(logger){
+    })
+    .catch(function(err) {
+        if (logger) {
             logger.error(err);
-        }else{
-          console.error(err);  
+        } else {
+            console.error(err);
         }
     });

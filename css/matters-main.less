@@ -1,0 +1,18 @@
+//general
+@import "general/tools";
+
+/*libs*/
+@import "libs/bootstrap";
+@import "libs/off-canvas";
+
+/*pages*/
+
+body {
+    background-color: @clientColorLightestGray;
+    &.login-background {
+        .addImage("login-fantasy-football-small.jpg", center, cover);
+    }
+    &.retrieve-background {
+        .addImage("home-fantasy-football-small.jpg", center, cover);
+    }
+}

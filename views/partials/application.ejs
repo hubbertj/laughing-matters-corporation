@@ -1,5 +1,4 @@
- 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= google_maps_key %>"></script>  
-<% if(environment  === 'production'){ %>
+ <% if(environment  === 'production'){ %>
    <script type="text/javascript" src="/build/js/min/<%= npm_package_name %>.min.js"></script>
  <% } else{ %>
  	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.js"></script>
